@@ -57,8 +57,7 @@
                 var $tdColor = doc.createElement('td');
 
                 $image.setAttribute( 'src', $('[data-js="image"]').get().value );
-                $image.setAttribute( 'class', 'img-thumbnail' );
-                $image.setAttribute( 'style', 'width: 250px; height: 200px;' );
+                $image.classList.add( 'img-thumbnail', 'car_tamanho' );
                 $tdImage.appendChild( $image );
 
                 $tdModel.textContent = $('[data-js="brand-model"]').get().value;
