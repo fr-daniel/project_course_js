@@ -31,10 +31,12 @@
             setCompanyInfo: function setCompanyInfo( ){
                 var $companyName = $('[data-js="company-name"]').get();
                 var $companyPhone = $('[data-js="company-phone"]').get();
+                var $companyNameTitle = $('[data-js="companyNameTitle"]').get();
 
                 $companyName.appendChild( doc.createTextNode( this.name ) );
                 $companyPhone.appendChild( doc.createTextNode( this.phone ) );
-            },
+                $companyNameTitle.textContent =  this.name;
+              },
 
             isReady: function isReady(){
                 return this.readyState === 4 && this.status === 200;
