@@ -32,8 +32,8 @@
                 var $companyName = $('[data-js="company-name"]').get();
                 var $companyPhone = $('[data-js="company-phone"]').get();
 
-                $companyName.textContent = this.name;
-                $companyPhone.textContent = this.phone;
+                $companyName.appendChild( doc.createTextNode( this.name ) );
+                $companyPhone.appendChild( doc.createTextNode( this.phone ) );
             },
 
             isReady: function isReady(){
