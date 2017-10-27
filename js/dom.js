@@ -1,90 +1,90 @@
-(function( win, doc ){
-    'use strict';
+(function (win, doc) {
+  'use strict';
 
-    function DOM( elements ){
-        if( !( this instanceof DOM ) )
-            return new DOM( elements );
+  function DOM(elements) {
+    if (!(this instanceof DOM))
+      return new DOM(elements);
 
-        this.element = doc.querySelectorAll( elements ); 
-    }
+    this.element = doc.querySelectorAll(elements);
+  }
 
-    DOM.isArray = function isArray( param ){
-        return Object.prototype.toString.call( param ) === '[object Array]';
-    };
+  DOM.isArray = function isArray(param) {
+    return Object.prototype.toString.call(param) === '[object Array]';
+  };
 
-    DOM.isObject = function isObject( param ){
-        return Object.prototype.toString.call( param ) === '[object Object]';
-    };
+  DOM.isObject = function isObject(param) {
+    return Object.prototype.toString.call(param) === '[object Object]';
+  };
 
-    DOM.isFunction = function isFunction( param ){
-        return Object.prototype.toString.call( param ) === '[object Function]';
-    };
+  DOM.isFunction = function isFunction(param) {
+    return Object.prototype.toString.call(param) === '[object Function]';
+  };
 
-    DOM.isNumber = function isNumber( param ){
-        return Object.prototype.toString.call( param ) === '[object Number]';
-    };
+  DOM.isNumber = function isNumber(param) {
+    return Object.prototype.toString.call(param) === '[object Number]';
+  };
 
-    DOM.isString = function isString( param ){
-        return Object.prototype.toString.call( param ) === '[object String]';
-    };
+  DOM.isString = function isString(param) {
+    return Object.prototype.toString.call(param) === '[object String]';
+  };
 
-    DOM.isBoolean = function isBoolean( param ){
-        return Object.prototype.toString.call( param ) === '[object Boolean]';
-    };
+  DOM.isBoolean = function isBoolean(param) {
+    return Object.prototype.toString.call(param) === '[object Boolean]';
+  };
 
-    DOM.isNull = function isNull( param ){
-        var tipoParam = Object.prototype.toString.call( param );
-        return  tipoParam === '[object Null]' || tipoParam === '[object Undefined]';
-    };
+  DOM.isNull = function isNull(param) {
+    var tipoParam = Object.prototype.toString.call(param);
+    return tipoParam === '[object Null]' || tipoParam === '[object Undefined]';
+  };
 
-    DOM.prototype.on = function on( eventType, callback ){
-        Array.prototype.forEach.call( this.element, function( elemento ){
-            elemento.addEventListener( eventType, callback, false );
-        });
-    };
+  DOM.prototype.on = function on(eventType, callback) {
+    Array.prototype.forEach.call(this.element, function (elemento) {
+      elemento.addEventListener(eventType, callback, false);
+    });
+  };
 
-    DOM.prototype.off = function of( eventType, callback ){
-        Array.prototype.forEach.call( this.element, function( elemento ){
-            elemento.removeEventListener( eventType, callback, false );
-        });
-    };
+  DOM.prototype.off = function of(eventType, callback) {
+    Array.prototype.forEach.call(this.element, function (elemento) {
+      elemento.removeEventListener(eventType, callback, false);
+    });
+  };
 
-    DOM.prototype.get = function get( index ){
-        return !index ? this.element[ 0 ] : this.element[ index ] ;
-    };
+  DOM.prototype.get = function get(index) {
+    return !index ? this.element[0] : this.element[index];
+  };
 
-    DOM.prototype.forEach = function forEach(){
-        return Array.prototype.forEach.apply( this.element, arguments );
-    };
+  DOM.prototype.forEach = function forEach() {
+    return Array.prototype.forEach.apply(this.element, arguments);
+  };
 
-    DOM.prototype.map = function map(){
-        return Array.prototype.map.apply( this.element, arguments );
-    };
+  DOM.prototype.map = function map() {
+    return Array.prototype.map.apply(this.element, arguments);
+  };
 
-    DOM.prototype.filter = function filter(){
-        return Array.prototype.filter.apply( this.element, arguments );
-    };
+  DOM.prototype.filter = function filter() {
+    return Array.prototype.filter.apply(this.element, arguments);
+  };
 
-    DOM.prototype.reduce = function reduce(){
-        return Array.prototype.reduce.apply( this.element, arguments );
-    };
+  DOM.prototype.reduce = function reduce() {
+    return Array.prototype.reduce.apply(this.element, arguments);
+  };
 
-    DOM.prototype.reduceRight = function reduceRight(){
-        return Array.prototype.reduceRight.apply( this.element, arguments );
-    };
+  DOM.prototype.reduceRight = function reduceRight() {
+    return Array.prototype.reduceRight.apply(this.element, arguments);
+  };
 
-    DOM.prototype.every = function every(){
-        return Array.prototype.every.apply( this.element, arguments );
-    };
+  DOM.prototype.every = function every() {
+    return Array.prototype.every.apply(this.element, arguments);
+  };
 
-    DOM.prototype.some = function some(){
-        return Array.prototype.some.apply( this.element, arguments );
-    };
+  DOM.prototype.some = function some() {
+    return Array.prototype.some.apply(this.element, arguments);
+  };
 
-    DOM.prototype.countElements = function countElements(){
-        return this.element.length;
-    }
+  DOM.prototype.countElements = function countElements() {
+    return this.element.length;
+  }
 
-    win.DOM = DOM;
+  win.DOM = DOM;
 
-})( window, document);
+})(window, document);

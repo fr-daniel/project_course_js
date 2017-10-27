@@ -1,83 +1,83 @@
-(function( $, doc ){
-    'use strict';
+(function ($, doc) {
+  'use strict';
 
-    var app = (function appController(){
-        return {
-            init: function(){
-                console.log( 'app init' );
-                this.companyInfo();
-                this.initEvents();
-            },
+  var app = (function appController() {
+    return {
+      init: function () {
+        console.log('app init');
+        this.companyInfo();
+        this.initEvents();
+      },
 
-            initEvents: function initEvents(){
-               $('[data-js="form-register"]').on( 'submit', this.handleSubmit );                
-            },
+      initEvents: function initEvents() {
+        $('[data-js="form-register"]').on('submit', this.handleSubmit);
+      },
 
-            companyInfo: function companyInfo(){
-                var ajax = new XMLHttpRequest();
-                ajax.open( 'GET', 'js/company.json', true );
-                ajax.send();
-                ajax.addEventListener( 'readystatechange', this.getCompanyInfo, false );
-            },
+      companyInfo: function companyInfo() {
+        var ajax = new XMLHttpRequest();
+        ajax.open('GET', 'js/company.json', true);
+        ajax.send();
+        ajax.addEventListener('readystatechange', this.getCompanyInfo, false);
+      },
 
-            getCompanyInfo: function getCompanyInfo(){
-                if( !app.isReady.call( this ) )
-                    return;
+      getCompanyInfo: function getCompanyInfo() {
+        if (!app.isReady.call(this))
+          return;
 
-                var data =  JSON.parse( this.responseText );
-                app.setCompanyInfo.call( data );
-            },
+        var data = JSON.parse(this.responseText);
+        app.setCompanyInfo.call(data);
+      },
 
-            setCompanyInfo: function setCompanyInfo( ){
-                var $companyName = $('[data-js="company-name"]').get();
-                var $companyPhone = $('[data-js="company-phone"]').get();
-                var $companyNameTitle = $('[data-js="companyNameTitle"]').get();
+      setCompanyInfo: function setCompanyInfo() {
+        var $companyName = $('[data-js="company-name"]').get();
+        var $companyPhone = $('[data-js="company-phone"]').get();
+        var $companyNameTitle = $('[data-js="companyNameTitle"]').get();
 
-                $companyName.appendChild( doc.createTextNode( this.name ) );
-                $companyPhone.appendChild( doc.createTextNode( this.phone ) );
-                $companyNameTitle.textContent =  this.name;
-              },
+        $companyName.appendChild(doc.createTextNode(this.name));
+        $companyPhone.appendChild(doc.createTextNode(this.phone));
+        $companyNameTitle.textContent = this.name;
+      },
 
-            isReady: function isReady(){
-                return this.readyState === 4 && this.status === 200;
-            },
+      isReady: function isReady() {
+        return this.readyState === 4 && this.status === 200;
+      },
 
-            handleSubmit: function handleSubmit( event ){
-                event.preventDefault();
-                var $bodyTable = $('[data-js="bodyTable"]').get();
-                $bodyTable.appendChild( app.createNewCar() );
-            },
+      handleSubmit: function handleSubmit(event) {
+        event.preventDefault();
+        var $bodyTable = $('[data-js="bodyTable"]').get();
+        $bodyTable.appendChild(app.createNewCar());
+      },
 
-            createNewCar: function createNewCar(){
-                var $fragment = doc.createDocumentFragment();
-                var $tr = doc.createElement('tr');
-                var $tdImage = doc.createElement('td');
-                var $image = doc.createElement('img');
-                var $tdModel = doc.createElement('td');
-                var $tdPlate = doc.createElement('td');
-                var $tdYear = doc.createElement('td');
-                var $tdColor = doc.createElement('td');
+      createNewCar: function createNewCar() {
+        var $fragment = doc.createDocumentFragment();
+        var $tr = doc.createElement('tr');
+        var $tdImage = doc.createElement('td');
+        var $image = doc.createElement('img');
+        var $tdModel = doc.createElement('td');
+        var $tdPlate = doc.createElement('td');
+        var $tdYear = doc.createElement('td');
+        var $tdColor = doc.createElement('td');
 
-                $image.setAttribute( 'src', $('[data-js="image"]').get().value );
-                $image.classList.add( 'img-thumbnail', 'car_tamanho' );
-                $tdImage.appendChild( $image );
+        $image.setAttribute('src', $('[data-js="image"]').get().value);
+        $image.classList.add('img-thumbnail', 'car_tamanho');
+        $tdImage.appendChild($image);
 
-                $tdModel.textContent = $('[data-js="brand-model"]').get().value;
-                $tdPlate.textContent = $('[data-js="plate"]').get().value;
-                $tdYear.textContent = $('[data-js="year"]').get().value;
-                $tdColor.textContent = $('[data-js="color"]').get().value;
+        $tdModel.textContent = $('[data-js="brand-model"]').get().value;
+        $tdPlate.textContent = $('[data-js="plate"]').get().value;
+        $tdYear.textContent = $('[data-js="year"]').get().value;
+        $tdColor.textContent = $('[data-js="color"]').get().value;
 
-                $tr.appendChild( $tdImage );
-                $tr.appendChild( $tdModel );
-                $tr.appendChild( $tdPlate );
-                $tr.appendChild( $tdYear );
-                $tr.appendChild( $tdColor );
-                
-                return $fragment.appendChild( $tr );
-            }
-        };
-    })();
+        $tr.appendChild($tdImage);
+        $tr.appendChild($tdModel);
+        $tr.appendChild($tdPlate);
+        $tr.appendChild($tdYear);
+        $tr.appendChild($tdColor);
 
-    app.init();
+        return $fragment.appendChild($tr);
+      }
+    };
+  })();
 
-})( window.DOM, document );
+  app.init();
+
+})(window.DOM, document);
