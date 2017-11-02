@@ -10,7 +10,11 @@
       },
 
       initEvents: function initEvents() {
-        $('[data-js="form-register"]').on('submit', this.handleSubmit);
+        $('[data-js="form-register"]').on( 'submit', this.handleSubmit);
+      },
+
+      initEventRemove: function initEventRemove(){
+        $('[data-js="remove"]').on( 'click', this.handleClickRemove );
       },
 
       companyInfo: function companyInfo() {
@@ -46,6 +50,7 @@
         event.preventDefault();
         var $bodyTable = $('[data-js="bodyTable"]').get();
         $bodyTable.appendChild(app.createNewCar());
+        app.initEventRemove();
       },
 
       createNewCar: function createNewCar() {
@@ -57,6 +62,13 @@
         var $tdPlate = doc.createElement('td');
         var $tdYear = doc.createElement('td');
         var $tdColor = doc.createElement('td');
+        var $tdAcoes = doc.createElement('td');
+        var $buttonRemove = doc.createElement('button');
+
+        $buttonRemove.setAttribute( 'data-js', 'remove' );
+        $buttonRemove.classList.add('btn', 'btn-danger');
+        $buttonRemove.innerHTML = '<i class="fa fa-remove"></i> Remover'; 
+        $tdAcoes.appendChild( $buttonRemove );
 
         $image.setAttribute('src', $('[data-js="image"]').get().value);
         $image.classList.add('img-thumbnail', 'car_tamanho');
@@ -72,10 +84,19 @@
         $tr.appendChild($tdPlate);
         $tr.appendChild($tdYear);
         $tr.appendChild($tdColor);
+        $tr.appendChild($tdAcoes);
 
         return $fragment.appendChild($tr);
+      },
+
+      handleClickRemove: function handleClickRemove( event ){
+        event.preventDefault();
+        var $trRemove = this.parentElement.parentElement;
+        var $bodyTable = $('[data-js="bodyTable"]').get();
+        $bodyTable.removeChild($trRemove);
       }
     };
+
   })();
 
   app.init();
