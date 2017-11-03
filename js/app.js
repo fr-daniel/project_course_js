@@ -77,7 +77,7 @@
             return;
           var data = JSON.parse( ajax.responseText );
           if( data.message === 'success' )
-            app.addCarTable.call( app, car );
+            app.requestCars();
         };
       },
 
@@ -92,10 +92,10 @@
         if( !app.isReady.call( this ) )
           return;
         var cars = JSON.parse( this.responseText );
-        app.addCarTable.apply( app, cars );
+        app.atualizarBodyTable.apply( app, cars );
       },
 
-      addCarTable: function addCarTable(){
+      atualizarBodyTable: function atualizarBodyTable(){
         var $trs = '';
         Array.prototype.forEach.call( arguments, function( car ) {
           $trs += '<tr>'
@@ -108,7 +108,7 @@
                     + '</tr>';
         });
         var $bodyTable = $('[data-js="bodyTable"]').get();
-        $bodyTable.insertAdjacentHTML('beforeend', $trs );
+        $bodyTable.innerHTML = $trs;
         this.initEventRemove();
       },
 
