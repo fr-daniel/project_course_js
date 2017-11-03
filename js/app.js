@@ -7,6 +7,7 @@
         console.log('app init');
         this.companyInfo();
         this.initEvents();
+        this.requestCars();
       },
 
       initEvents: function initEvents() {
@@ -48,45 +49,67 @@
 
       handleSubmit: function handleSubmit(event) {
         event.preventDefault();
-        var $bodyTable = $('[data-js="bodyTable"]').get();
-        $bodyTable.appendChild(app.createNewCar());
-        app.initEventRemove();
+        var car =
+          {
+          image: $('[data-js="image"]').get().value,
+          brandModel: $('[data-js="brand-model"]').get().value,
+          plate: $('[data-js="plate"]').get().value,
+          year:  $('[data-js="year"]').get().value,
+          color: $('[data-js="color"]').get().value
+          };
+        app.addCarServer( car );
       },
 
-      createNewCar: function createNewCar() {
-        var $fragment = doc.createDocumentFragment();
-        var $tr = doc.createElement('tr');
-        var $tdImage = doc.createElement('td');
-        var $image = doc.createElement('img');
-        var $tdModel = doc.createElement('td');
-        var $tdPlate = doc.createElement('td');
-        var $tdYear = doc.createElement('td');
-        var $tdColor = doc.createElement('td');
-        var $tdAcoes = doc.createElement('td');
-        var $buttonRemove = doc.createElement('button');
+      addCarServer: function addCarServer( car ){
+        var ajax = new XMLHttpRequest();
+        ajax.open( 'POST', 'http://localhost:3000/car' );
+        ajax.setRequestHeader( 'Content-Type', 'application/x-www-form-urlencoded' );
+        ajax.send( 
+          'image=' + car.image 
+          + '&brandModel=' + car.brandModel 
+          + '&year=' + car.year
+          + '&plate=' + car.plate
+          + '&color=' + car.color
+         );
 
-        $buttonRemove.setAttribute( 'data-js', 'remove' );
-        $buttonRemove.classList.add('btn', 'btn-danger');
-        $buttonRemove.innerHTML = '<i class="fa fa-remove"></i> Remover'; 
-        $tdAcoes.appendChild( $buttonRemove );
+        ajax.onreadystatechange = function(){
+          if( !app.isReady.call( this ) )
+            return;
+          var data = JSON.parse( ajax.responseText );
+          if( data.message === 'success' )
+            app.addCarTable.call( app, car );
+        };
+      },
 
-        $image.setAttribute('src', $('[data-js="image"]').get().value);
-        $image.classList.add('img-thumbnail', 'car_tamanho');
-        $tdImage.appendChild($image);
+      requestCars: function initCars(){
+        var ajax = new XMLHttpRequest();
+        ajax.open( 'GET', 'http://localhost:3000/car' );
+        ajax.send();
+        ajax.addEventListener( 'readystatechange', this.getCars, false );
+      },
 
-        $tdModel.textContent = $('[data-js="brand-model"]').get().value;
-        $tdPlate.textContent = $('[data-js="plate"]').get().value;
-        $tdYear.textContent = $('[data-js="year"]').get().value;
-        $tdColor.textContent = $('[data-js="color"]').get().value;
+      getCars: function getCars( e ){
+        if( !app.isReady.call( this ) )
+          return;
+        var cars = JSON.parse( this.responseText );
+        app.addCarTable.apply( app, cars );
+      },
 
-        $tr.appendChild($tdImage);
-        $tr.appendChild($tdModel);
-        $tr.appendChild($tdPlate);
-        $tr.appendChild($tdYear);
-        $tr.appendChild($tdColor);
-        $tr.appendChild($tdAcoes);
-
-        return $fragment.appendChild($tr);
+      addCarTable: function addCarTable(){
+        var $trs = '';
+        Array.prototype.forEach.call( arguments, function( car ) {
+          $trs += '<tr>'
+                    + '<td><img src="' + car.image + '" class="img-thumbnail car_tamanho"></td>'
+                    + '<td>' + car.brandModel + '</td>'
+                    + '<td>' + car.plate + '</td>'
+                    + '<td>' + car.year + '</td>'
+                    + '<td>' + car.color + '</td>'
+                    + '<td><button data-js="remove" class="btn btn-danger"><i class="fa fa-remove"></i> Remover</Button></td>'
+                    + '</tr>';
+        });
+        var $bodyTable = $('[data-js="bodyTable"]').get();
+        $bodyTable.insertAdjacentHTML('beforeend', $trs );
+        this.initEventRemove();
       },
 
       handleClickRemove: function handleClickRemove( event ){
