@@ -74,12 +74,12 @@
       if( !isReady.call( this ) )
         return;
       const cars = JSON.parse( this.responseText );
-      atualizarBodyTable.apply( atualizarBodyTable, cars );
+      atualizarBodyTable( cars );
     };
 
-    function atualizarBodyTable(){
+    function atualizarBodyTable( cars ){
       let $trs = '';
-      Array.prototype.forEach.call( arguments, car => {
+      cars.forEach( car => {
         $trs += `
           <tr>
             <td><img src="${car.image}" class="img-thumbnail car_tamanho"></td>
@@ -110,7 +110,7 @@
 
     function getPlate( $tdsCar ){
       let plate;
-      Array.prototype.forEach.call( $tdsCar,  element => {
+      Array.from( $tdsCar ).forEach( element => {
         if( element.getAttribute('data-js') === 'plate')
            plate = element.textContent;
       });
